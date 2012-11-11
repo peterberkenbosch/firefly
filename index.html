@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Firefly by ariejan</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Firefly</h1>
+        <p>FireFly is a simple URL shortner for personal use.</p>
+
+        <p class="view"><a href="https://github.com/ariejan/firefly">View the Project on GitHub <small>ariejan/firefly</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/ariejan/firefly/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/ariejan/firefly/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/ariejan/firefly">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>FireFly <a href="http://travis-ci.org/ariejan/firefly"><img src="https://secure.travis-ci.org/ariejan/firefly.png?branch=master" alt="Build Status"></a>
+</h1>
+
+<p>FireFly is a simple URL shortener for personal (or not so personal) use.</p>
+
+<h2>About Firefly 2.0</h2>
+
+<p>Firefly 2.0 is a complete rewrite of the original Firefly URL shortener.</p>
+
+<p>Some features that 2.0 will sport:</p>
+
+<ul>
+<li>Fully ruby 1.9 compatible.</li>
+<li>Easy to install and upgrade.</li>
+<li>Support for postgres, sqlite3 and mysql.</li>
+<li>Better documentation.</li>
+</ul><p>Among those features there are also some other significant changes:</p>
+
+<ul>
+<li>No longer a gem, just a plain Rack application.</li>
+</ul><p>If you're looking to have a working install of Firefly, use the
+<a href="https://github.com/ariejan/firefly/tree/1-5-stable">latest 1.5.3 version</a>.</p>
+
+<p>The <code>master</code> branch contains the next version, 2.0.0-pre, of Firefly and is
+not suitable for any kind of serious use at this time.</p>
+
+<h2>Installation</h2>
+
+<h3>Get the code</h3>
+
+<p>Installation <em>should</em> be as easy as:</p>
+
+<pre><code>git clone https://github.com/ariejan/firefly.git mydomain
+cd mydomain
+</code></pre>
+
+<h3>Configuration</h3>
+
+<p>Then, put the configuration in place:</p>
+
+<pre><code>cp config/database.example.yml config/database.yml
+cp config/firefly.example.yml config/firefly.yml
+</code></pre>
+
+<p>Before you edit these, open up <code>Gemfile</code> and comment out the database
+gems you don't need. So, if you want to use Postgres, comment out
+the <code>mysql2</code> and <code>sqlite3</code> gems, like so:</p>
+
+<pre><code>gem 'pg'
+# gem 'mysql2'
+# gem 'sqlite3'
+</code></pre>
+
+<p>Next, open up <code>config/database.yml</code> and <code>config/firefly.yml</code> and configure
+everything according to your needs.</p>
+
+<h3>Bundle</h3>
+
+<p>Run <code>bundle install</code> to install all gem dependencies.</p>
+
+<h3>Create your database</h3>
+
+<h4>Postgres</h4>
+
+<p>Just create a new database:</p>
+
+<pre><code>psql -c 'create database firefly_test;'
+</code></pre>
+
+<h4>MySQL</h4>
+
+<p>Make sure to create a database that uses the <code>utf8</code> character set and
+<code>utf8_bin</code> collation. This is to ensure MySQL can lookup case sensitive strings.</p>
+
+<pre><code>mysql -e 'create database firefly_test character set utf8 collate utf8_bin;'
+</code></pre>
+
+<h4>Sqlite3</h4>
+
+<p>Nothing special to do here.</p>
+
+<h3>Run migrations</h3>
+
+<pre><code>rake db:migrate
+</code></pre>
+
+<h3>Start your Firefly</h3>
+
+<pre><code>rackup
+</code></pre>
+
+<h2>Supported rubies</h2>
+
+<p>The entire spec suite is run against the latest ruby-1.9.2 and ruby-1.9.3. These
+are the officially supported rubies.</p>
+
+<p>The spec suite is also run against Rubinius in 1.9-mode and ruby-head. Although
+I strife to get these builds passing, they are not officially supported by me at
+this time.</p>
+
+<p>jruby, ruby-1.8.x and others are currently not supported.</p>
+
+<h2>Deployments to Heroku</h2>
+
+<p>Heroku is a popular deploy target and is fully supported by Firefly. There's
+nothing holding you back from deploying to Heroku, except that the 
+<code>config/database.yml</code> and <code>config/firefly.yml</code> files a currently ignored by git.</p>
+
+<p>Edit, <code>.gitignore</code> and remove the entries for these files, commit your changes
+and push to Heroku.</p>
+
+<h2>Development</h2>
+
+<p>I develop against Postgres and have Travis run the specs against MySQL and
+sqlite3. </p>
+
+<p>To get your own environment setup, follow the installation guide, with the 
+following twist:</p>
+
+<ul>
+<li>Don't comment out the database gems. If you can't or don't want to install
+database specific gems, feel free to comment them out, but don't ever commit
+these changes</li>
+</ul><p>Then you should be able to run the spec suite like so:</p>
+
+<pre><code>RACK_ENV=test rake
+</code></pre>
+
+<h2>Background</h2>
+
+<p>Firefly was started in 2009 as side project to dive into the world of URL
+shorteners. I've been using Firefly since then for my own domain and many 
+others have joined me.</p>
+
+<p>After writing the last 1.5.x release in 2011 I kind of forgot about Firefly.
+Nearing the end of 2012 I picked it up again and I'm now in the process of
+dusting of the cobwebs and giving Firefly a nice make-over.</p>
+
+<h2>Note on Patches, Pull Requests and Issues</h2>
+
+<p>If you encounter an issue with Firefly, please feel free to create an issue
+in <a href="https://github.com/ariejan/firefly/issues">Github Issues</a>.</p>
+
+<p>In case you want to contribute, fork the project, create a feature or
+bugfix branch and sen in a pull request.</p>
+
+<p><em>I prefer pull requests with only added failing specs over a pull request
+with working code and no specs.</em></p>
+
+<h2>Credits</h2>
+
+<p><strong>Author</strong>: Ariejan de Vroom
+<strong>URL</strong>: <a href="http://ariejan.net">http://ariejan.net</a></p>
+
+<h2>License</h2>
+
+<p>See <a href="https://github.com/ariejan/firefly/blob/master/LICENSE">LICENSE</a> for more information.</p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/ariejan">ariejan</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-60089-39");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
