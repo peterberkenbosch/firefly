@@ -24,7 +24,7 @@ group :test do
 
   gem 'guard'
   gem 'guard-minitest'
-  gem 'coveralls', require: false
+  gem 'coveralls', '>= 0.8.14', require: false
 end
 
 group :production do
