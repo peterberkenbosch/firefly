@@ -18,8 +18,8 @@ end
 group :test do
   gem 'minitest'
   gem 'minitest-reporters'
-  gem 'capybara'
-  gem 'launchy'
+  gem 'capybara', '>= 2.6.2'
+  gem 'launchy', '>= 2.4.3'
   gem 'mocha'
 
   gem 'guard'
